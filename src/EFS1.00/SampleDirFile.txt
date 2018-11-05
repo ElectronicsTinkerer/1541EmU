@@ -18,4 +18,4 @@
 #Again, no whitespace between filenames, or it will be 
 # assumed to be part of the filename.
 #Pseudo-filename`Actual Filename;
-graphic.demo.prg`graphdmo.prg
+longfilenamehere`shortnme.prg;
