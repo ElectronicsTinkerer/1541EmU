@@ -46,15 +46,15 @@ Schematic:
 #define FALSE 0
 #define TRUE 1
 
-bool eoi = FALSE;           //EOI for recieving
+bool eoi = FALSE;           //EOI for receiving
 bool myeoi = FALSE;         //EOI for sending
-byte byteIn = 0x00;         //Current Byte recieved
+byte byteIn = 0x00;         //Current Byte received
 bool haveGotData = FALSE;   //Did get data yet?
 String filename = "";       //String to represent File names
 String filenameCon = "";    //Filename used as temporary buffer in locating the filename in the dir file
 char fileByte = 0;          //Used in parsing the directory file
 char filenameByte = 0;      //Used in conversion of bytes to ASCII
-char fileBuffer = 0;        //Used as a buffer when recieving files from the computer
+char fileBuffer = 0;        //Used as a buffer when receiving files from the computer
 unsigned long fileSize = 0; //Current character counter for sending files, used to find the EOI of a file
 bool fileOverwrite = FALSE; //Determines if a file can be overwritten
 bool fileIsDir = FALSE;     //Used to determine if a file is a directory or not, see (load "*",8)
@@ -90,7 +90,7 @@ byte currentCommand = RESET; //Loading or Saving?
  *******************************************/
  
 #define OVERWRITE_ERROR 2   //Two flashes if a file is attempted to be overwritten without the proper syntax ("@0:")
-                            //Use "@0:" infront of the filename to overwrite existing file
+                            //Use "@0:" in front of the filename to overwrite existing file
 #define FRAME_ERROR 3       //Computer did not respond with a frame handshake within 1ms
 
 #define SD_ERROR 4          //SD card failed to initialize
@@ -99,7 +99,7 @@ byte errorCode = RESET;     //Error codes for LED
 
 
 File root;        //Used as the root directory when searching for first file on disk
-File tempFile;    //Setup tempory file
+File tempFile;    //Setup temporary file
 
   
 void setup() {
@@ -148,7 +148,7 @@ void loop() {
       Serial.println("ATN");
       currentByte = getByte(); //Sets DATA TRUE
       Serial.println(currentByte, HEX);
-      if (currentByte < 0x3f) {   //If recieving a listen command, listen
+      if (currentByte < 0x3f) {   //If receiving a listen command, listen
         deviceSelect = currentByte - 0x20;  //Remove the base address from the command and set it as the device number
         currentStatus = LISTEN;
         currentCommand = SAVE;    //Load a file
@@ -157,7 +157,7 @@ void loop() {
         currentStatus = UNLISTEN;
       }
       else if (currentByte < 0x4f && currentByte > 0x3f) {  //TALK
-        deviceSelect = currentByte - 0x40;  //Remove the base address from the command recieved
+        deviceSelect = currentByte - 0x40;  //Remove the base address from the command received
         currentStatus = TALK;
         currentCommand = LOAD;    //Save a file
       }
@@ -226,7 +226,7 @@ void loop() {
 
         sendFile(filename);             //Send the file
       }
-      else {    //Check to see if the file exists on the SD card, otherwise, turn around again to indicate an error suituation
+      else {    //Check to see if the file exists on the SD card, otherwise, turn around again to indicate an error situation
                 //Get the filename from the dir file and send the file
         sendFile(getFilenameFromDir(filename)); 
       }
@@ -269,10 +269,10 @@ void loop() {
           
     Serial.println("OPENFile");
     filename = "";                    //Clear filename
-    do {                              //Loop until entire filename has been recieved
+    do {                              //Loop until entire filename has been received
       filenameByte = getByte();       //Convert the byte to a character
       filename.concat(filenameByte);  //Convert all bytes of the filename to a string
-    } while (eoi == FALSE);           //Keep recieving bytes until the entire file name has been recieved (eoi == TRUE)
+    } while (eoi == FALSE);           //Keep receiving bytes until the entire file name has been received (eoi == TRUE)
    
     if (filename.startsWith("@0:")) { //If the filename begins with "@0:" then it is intended to overwrite the existing file
       fileOverwrite = TRUE;           //Set flag to allow overwrites
@@ -337,7 +337,7 @@ String getFilenameFromDir(String tempName) {
             break;  //Done!
           }
         }
-        continue; //If not the corect file, check again
+        continue; //If not the correct file, check again
       }
   
       root.read();
@@ -363,7 +363,7 @@ void sendDir() {      //Creates a directory and sends it
   unsigned int lineNumber = 10;         //Line number
   String tempName = "";                 //Temporary file name variable
   String tempSize = "";                 //Stores the size of the file
-  unsigned int lineLength = 0;          //Lenght of line
+  unsigned int lineLength = 0;          //Length of line
   unsigned int seekPos = 0;             //Last seek position in file before closing and opening the other file to get size
   
   shiftByteOut(lowByte(currentOffset), FALSE);   //Send the currentOffset - this is the first two bytes (little-endian) for the start of a .PRG file
@@ -423,7 +423,7 @@ void sendDir() {      //Creates a directory and sends it
       root.close();               //Close the dir file
       File entry = SD.open(filenameCon);  //Open the file to get filesize
       tempSize = entry.size();              //Get the size of current file
-      currentOffset += 27 + tempSize.length();   //Find the length of the current line and add it to the current offset (The 20 is for the unber of extra bytes - next line offset, linenumber, SPACE at beginning of line, filename and following spaces, and ending NULL)
+      currentOffset += 27 + tempSize.length();   //Find the length of the current line and add it to the current offset (The 20 is for the number of extra bytes - next line offset, linenumber, SPACE at beginning of line, filename and following spaces, and ending NULL)
 
       shiftByteOut(lowByte(currentOffset), FALSE);  //Send current offset
       shiftByteOut(highByte(currentOffset), FALSE);
@@ -460,7 +460,7 @@ void sendDir() {      //Creates a directory and sends it
 
 void sendStringofBytes(String tempString) {   //Send a string to the computer (c64)
                                               //DOES NOT SEND AND EOI!!!!!!
-  for (int strPrt = 0; strPrt < tempString.length(); strPrt++) {   //Itterate byte by byte until string is done
+  for (int strPrt = 0; strPrt < tempString.length(); strPrt++) {   //Iterate byte by byte until string is done
     shiftByteOut(tempString.charAt(strPrt), FALSE);   //Send the character
   }
 }
@@ -491,10 +491,10 @@ void writeFile(String tempFilename) {
   
   fileBuffer = "";                //Clear filebuffer
   
-  do {                            //Loop until entire file has been recieved
+  do {                            //Loop until entire file has been received
     fileBuffer = getByte();       //Convert the byte to a character
     tempFile.print(fileBuffer);   //Send character to file
-  } while (eoi == FALSE);         //Keep recieving bytes until the entire file has been recieved (eoi == TRUE)             
+  } while (eoi == FALSE);         //Keep receiving bytes until the entire file has been received (eoi == TRUE)             
   tempFile.close();               //Save the file and close it
   digitalWrite(ERRLED, 0);
 }   
@@ -567,14 +567,14 @@ byte shiftByteOut(byte byteOut, bool iseoi) {
   delayMicroseconds(60);
   pinMode(CLK, INPUT);    //Release Clock line to say "Ready to send Byte"
 
-  while (digitalRead(DAT) == LOW) {   //Wait for listner to be ready
+  while (digitalRead(DAT) == LOW) {   //Wait for listener to be ready
   }
 
   if (iseoi == FALSE) {
     delayMicroseconds(30);  //Not an EOI
   } else {
     delayMicroseconds(250); //Is an EOI
-    while (digitalRead(DAT) == HIGH) {  //Wait for listner to acknowledge EOI
+    while (digitalRead(DAT) == HIGH) {  //Wait for listener to acknowledge EOI
     }
     while (digitalRead(DAT) == LOW) {
     }
@@ -601,11 +601,11 @@ byte shiftByteOut(byte byteOut, bool iseoi) {
   }
 
   timeTaken = 0;  //Reset the frame handshake counter
-  while (digitalRead(DAT) == HIGH && timeTaken <= 1000) {  //Wait for listner to pull DATA TRUE
+  while (digitalRead(DAT) == HIGH && timeTaken <= 1000) {  //Wait for listener to pull DATA TRUE
     timeTaken++;
   }                                   // Frame Handshake
   
-  if (timeTaken > 1000) {     //The computer took longer than 1ms to acknoledge byte frame
+  if (timeTaken > 1000) {     //The computer took longer than 1ms to acknowledge byte frame
     errorCode = FRAME_ERROR;  //Set error code
     flashError(errorCode);             //Flash code
   }
