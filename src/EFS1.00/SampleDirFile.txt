@@ -1,0 +1,21 @@
+#This file, when actually on the SD card must be located in
+# the root of the device and named 'dir'
+#
+#This is a comment, they have to be at the start of a line,
+# with no preceding whitespace or non-whitespace characters
+#
+#This file is used to set the order of files on the drive and 
+# the names associated with them.
+# (to hide a file, just comment it out ;)
+#
+#Last Updated: 10 Oct, 2018
+#
+
+#Full original filename, Filename following 8.3 convention
+# these names are separated by the ` character because I do 
+# not think that any filenames from the original disk use
+# this character.
+#Again, no whitespace between filenames, or it will be 
+# assumed to be part of the filename.
+#Pseudo-filename`Actual Filename;
+graphic.demo.prg`graphdmo.prg
