@@ -14293,7 +14293,7 @@ UART&lt;p&gt;
 <wire x1="177.8" y1="149.86" x2="195.58" y2="149.86" width="0.635" layer="97"/>
 <text x="124.714" y="56.642" size="1.778" layer="97">See Note 1</text>
 <text x="203.2" y="129.54" size="1.778" layer="97">1. Solder these pads together to cause 
-the controler to reset when the computer
+the controller to reset when the computer
 resets (Manual resets are still possible, 
 but they will not reset the computer). 
 Leave open for manual reset only. </text>
