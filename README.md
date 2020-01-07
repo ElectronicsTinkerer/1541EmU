@@ -33,7 +33,7 @@ Latest board revision: 1.1 on September 9, 2018
 Latest revision: EFS1.00 (Extended File System v1.00) on October 23, 2018
   
   1) Added the "DIR" file that translates the expected filename from the c64 to the actual name that is stored on the SD
-  2) Fixed "DEVICE NOT PRESENT ERROR' (as far as I can test the drive)
+  2) Fixed "DEVICE NOT PRESENT ERROR" (as far as I can test the drive)
   
   
   
