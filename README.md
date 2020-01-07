@@ -5,6 +5,7 @@ Source code and eagle files for the 1541 Emulator
  _Description_
  
   The 1541EmU is a 1541 emulator for the c64. It is based on the ATMEGA328P-PU and interfaces over the IEC bus. Files are stored on a micro SD card formatted to FAT32 using the 8.3 file name format. Included is a drive reset button that resets the drive, but not the computer. There is also a solder jumper to enable reset-by-computer, which allows the c64's reset line to reset the drive.
+  I have a demo <a href="https://youtu.be/4uivsbCX4fI">here</a>. (https://youtu.be/4uivsbCX4fI)
   
  _Features_
  
