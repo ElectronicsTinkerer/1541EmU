@@ -1,5 +1,8 @@
 # 1541EmU
 Source code and eagle files for the 1541 Emulator
+
+***Note:** This repository has now been archived on 2026-04-12, as I no longer have any plans on continuing development (and besides, there's some waaay better emulators on the market now 🙂). I will keep the repo up since I think it makes for an interesting, minimal-ish implementation of the IEC protocol, and maybe there's a few people who might find it useful.*
+
 <hr>
 
  _Description_
